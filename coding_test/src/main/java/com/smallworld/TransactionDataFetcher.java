@@ -11,49 +11,50 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+// waqar working 
 public class TransactionDataFetcher {
-	
-	private List<Transaction> transactions;
-	
+
+    private List<Transaction> transactions;
 
     /**
      * Returns the sum of the amounts of all transactions
      */
-	  public double getTotalTransactionAmount() {
-	        double totalAmount = 0;
-	        for (Transaction transaction : transactions) {
-	            totalAmount += transaction.getAmount();
-	        }
-	        return totalAmount;
-	        throw new UnsupportedOperationException();
-	    }
+    public double getTotalTransactionAmount() {
+        double totalAmount = 0;
+        for (Transaction transaction : transactions) {
+            totalAmount += transaction.getAmount();
+        }
+        return totalAmount;
+        throw new UnsupportedOperationException();
+    }
 
     /**
-     * Returns the sum of the amounts of all transactions sent by the specified client
+     * Returns the sum of the amounts of all transactions sent by the specified
+     * client
      */
-	  public double getTotalTransactionAmountSentBy(String senderFullName) {
-	        double totalAmount = 0;
-	        for (Transaction transaction : transactions) {
-	            if (transaction.getSenderFullName().equals(senderFullName)) {
-	                totalAmount += transaction.getAmount();
-	            }
-	        }
-	        return totalAmount;
-	        throw new UnsupportedOperationException();
-	    }
+    public double getTotalTransactionAmountSentBy(String senderFullName) {
+        double totalAmount = 0;
+        for (Transaction transaction : transactions) {
+            if (transaction.getSenderFullName().equals(senderFullName)) {
+                totalAmount += transaction.getAmount();
+            }
+        }
+        return totalAmount;
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Returns the highest transaction amount
      */
     public double getMaxTransactionAmount() {
-    	   double maxAmount = Double.MIN_VALUE;
-           for (Transaction transaction : transactions) {
-               if (transaction.getAmount() > maxAmount) {
-                   maxAmount = transaction.getAmount();
-               }
-           }
-           return maxAmount;
-           throw new UnsupportedOperationException();
+        double maxAmount = Double.MIN_VALUE;
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() > maxAmount) {
+                maxAmount = transaction.getAmount();
+            }
+        }
+        return maxAmount;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -71,8 +72,8 @@ public class TransactionDataFetcher {
     }
 
     /**
-     * Returns whether a client (sender or beneficiary) has at least one transaction with a compliance
-     * issue that has not been solved
+     * Returns whether a client (sender or beneficiary) has at least one
+     * transaction with a compliance issue that has not been solved
      */
     public boolean hasOpenComplianceIssues(String clientFullName) {
         for (Transaction transaction : transactions) {
@@ -90,18 +91,18 @@ public class TransactionDataFetcher {
      * Returns all transactions indexed by beneficiary name
      */
     public Map<String, List<Transaction>> getTransactionsByBeneficiaryName() {
-    	
-    	 Map<String, List<Transaction>> transactionsByBeneficiary = new HashMap<>();
-         for (Transaction transaction : transactions) {
-             String beneficiaryFullName = transaction.getBeneficiaryFullName();
-             if (!transactionsByBeneficiary.containsKey(beneficiaryFullName)) {
-                 transactionsByBeneficiary.put(beneficiaryFullName, new ArrayList<>());
-             }
-             transactionsByBeneficiary.get(beneficiaryFullName).add(transaction);
-         }
+
+        Map<String, List<Transaction>> transactionsByBeneficiary = new HashMap<>();
+        for (Transaction transaction : transactions) {
+            String beneficiaryFullName = transaction.getBeneficiaryFullName();
+            if (!transactionsByBeneficiary.containsKey(beneficiaryFullName)) {
+                transactionsByBeneficiary.put(beneficiaryFullName, new ArrayList<>());
+            }
+            transactionsByBeneficiary.get(beneficiaryFullName).add(transaction);
+        }
 
         return transactionsByBeneficiary;
-    	
+
         throw new UnsupportedOperationException();
     }
 
@@ -109,36 +110,37 @@ public class TransactionDataFetcher {
      * Returns the identifiers of all open compliance issues
      */
     public Set<Integer> getUnsolvedIssueIds() {
-    	 Set<Integer> unsolvedIssueIds = new HashSet<>();
+        Set<Integer> unsolvedIssueIds = new HashSet<>();
 
-         for (Transaction transaction : transactions) {
-             if (!transaction.isIssueSolved()) {
-                 unsolvedIssueIds.add(transaction.getIssueId());
-             }
-         }
+        for (Transaction transaction : transactions) {
+            if (!transaction.isIssueSolved()) {
+                unsolvedIssueIds.add(transaction.getIssueId());
+            }
+        }
 
-         return unsolvedIssueIds;
-         throw new UnsupportedOperationException();
+        return unsolvedIssueIds;
+        throw new UnsupportedOperationException();
     }
 
     /**
      * Returns a list of all solved issue messages
      */
     public List<String> getAllSolvedIssueMessages() {
-    	  List<String> solvedIssueMessages = new ArrayList<>();
+        List<String> solvedIssueMessages = new ArrayList<>();
 
-          for (Transaction transaction : transactions) {
-              if (transaction.isIssueSolved()) {
-                  solvedIssueMessages.add(transaction.getIssueMessage());
-              }
-          }
+        for (Transaction transaction : transactions) {
+            if (transaction.isIssueSolved()) {
+                solvedIssueMessages.add(transaction.getIssueMessage());
+            }
+        }
 
-          return solvedIssueMessages;
-          throw new UnsupportedOperationException();
+        return solvedIssueMessages;
+        throw new UnsupportedOperationException();
     }
 
     /**
-     * Returns the 3 transactions with the highest amount sorted by amount descending
+     * Returns the 3 transactions with the highest amount sorted by amount
+     * descending
      */
     public List<Transaction> getTop3TransactionsByAmount() {
         List<Transaction> top3Transactions = new ArrayList<>(transactions);
@@ -157,23 +159,23 @@ public class TransactionDataFetcher {
      * Returns the senderFullName of the sender with the most total sent amount
      */
     public Optional<String> getTopSender() {
-    	 Map<String, Double> senderTotalAmounts = new HashMap<>();
+        Map<String, Double> senderTotalAmounts = new HashMap<>();
 
-         // Calculate the total sent amount for each sender
-         for (Transaction transaction : transactions) {
-             String senderFullName = transaction.getSenderFullName();
-             double amount = transaction.getAmount();
-             senderTotalAmounts.put(senderFullName, senderTotalAmounts.getOrDefault(senderFullName, 0.0) + amount);
-         }
+        // Calculate the total sent amount for each sender
+        for (Transaction transaction : transactions) {
+            String senderFullName = transaction.getSenderFullName();
+            double amount = transaction.getAmount();
+            senderTotalAmounts.put(senderFullName, senderTotalAmounts.getOrDefault(senderFullName, 0.0) + amount);
+        }
 
-         // Find the sender with the highest total sent amount
-         Optional<Map.Entry<String, Double>> topSenderEntry = senderTotalAmounts.entrySet()
-                 .stream()
-                 .max(Map.Entry.comparingByValue());
+        // Find the sender with the highest total sent amount
+        Optional<Map.Entry<String, Double>> topSenderEntry = senderTotalAmounts.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue());
 
-         // Return the senderFullName of the top sender (if available)
-         return topSenderEntry.map(Map.Entry::getKey);
-    	
+        // Return the senderFullName of the top sender (if available)
+        return topSenderEntry.map(Map.Entry::getKey);
+
         throw new UnsupportedOperationException();
     }
 
